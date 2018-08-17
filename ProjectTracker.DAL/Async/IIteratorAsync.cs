@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectTracker
+namespace ProjectTracker.DAL.Async
 {
-    public class Class1
+    public interface IIteratorAsync<TDelegate>
     {
+        Task IterateAsync(TDelegate callback);
     }
 }
