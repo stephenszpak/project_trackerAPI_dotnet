@@ -3,14 +3,12 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using ProjectTracker.Api;
 using ProjectTracker.Api.Models;
 using ProjectTracker.Api.Providers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace ProjectTracker.Api.App_Start
+namespace ProjectTracker.Api
 {
     public partial class Startup
     {

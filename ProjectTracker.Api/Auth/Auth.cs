@@ -14,7 +14,7 @@ namespace ProjectTracker.Api.Auth
         {
             protected override bool IsAuthorized(HttpActionContext actionContext)
             {
-                #region Commeted Code 
+                #region stuff
 
                 //Code to validate jwt
                 //var validationParameters = new TokenValidationParameters()

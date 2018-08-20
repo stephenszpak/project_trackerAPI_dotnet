@@ -91,5 +91,8 @@
       <Name>ProjectTracker.SolutionExtensions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="NLog.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -57,7 +57,7 @@ namespace ProjectTracker.Api.Models
         {
             var context = default(Context);
             context = context ?? request.GetContext();
-            var username = request.GetUserName();
+            var username = "Billy";
 
             var result = await context.Tasks.InsertAsync(task.Name, task.Description, task.IsComplete, username,
                 (id) =>

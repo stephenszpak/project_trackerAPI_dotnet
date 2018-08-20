@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ProjectTracker.Api.App_Start
+namespace ProjectTracker.Api
 {
     public class FilterConfig
     {

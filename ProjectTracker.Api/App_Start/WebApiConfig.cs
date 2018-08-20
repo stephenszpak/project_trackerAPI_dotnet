@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin.Security.OAuth;
 using System.Web.Http;
+using Microsoft.Owin.Host.SystemWeb;
 
 namespace ProjectTracker.Api
 {
@@ -9,8 +10,8 @@ namespace ProjectTracker.Api
         {
             // Web API configuration and services
             var environment = System.Configuration.ConfigurationManager.AppSettings["Environment"];
-            config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+            //config.SuppressDefaultHostAuthentication();
+            //config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.EnableCors();
 
             // Web API routes

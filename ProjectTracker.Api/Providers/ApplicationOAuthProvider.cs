@@ -2,7 +2,7 @@
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using ProjectTracker.Api.App_Start;
+using ProjectTracker.Api;
 using ProjectTracker.Api.Models;
 using System;
 using System.Collections.Generic;

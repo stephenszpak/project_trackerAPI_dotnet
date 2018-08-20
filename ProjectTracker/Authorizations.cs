@@ -120,13 +120,13 @@ namespace ProjectTracker
                             .Select(x => x.SamAccountName)
                             .ToArray();
                   
-                        var isAccountingAdmin = output.Contains(CloudConfigurationManager.GetSetting("AuthServer.Roles.AccountingAdmin"));
+                        var isAdmin = output.Contains(CloudConfigurationManager.GetSetting("AuthServer.Roles.Admin"));
                         var isUser = output.Contains(CloudConfigurationManager.GetSetting("AuthServer.Roles.User"));
                         var isDeveloper = output.Contains(CloudConfigurationManager.GetSetting("AuthServer.Roles.Developers"));
                         var readOnly = output.Contains(CloudConfigurationManager.GetSetting("AuthServer.Roles.ReadOnly"));
                         var deployedEnvironment = CloudConfigurationManager.GetSetting("Environment");
 
-                        if (isAccountingAdmin || (isDeveloper && deployedEnvironment.Equals("Test")))
+                        if (isAdmin || (isDeveloper && deployedEnvironment.Equals("Test")))
                         {
                             roles.Add(CustomUserRoles.Admin);
                             roles.Add(CustomUserRoles.User);

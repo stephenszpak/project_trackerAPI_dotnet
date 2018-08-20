@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Threading.Tasks;
 using System.Web.Configuration;
@@ -48,7 +47,7 @@ namespace ProjectTracker.Api
             //}
 
             //ConfigureAuth(app);
-            ConfigureOAuth(app);
+            //ConfigureOAuth(app);
 
             //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
