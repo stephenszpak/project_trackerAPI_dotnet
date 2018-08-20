@@ -57,18 +57,53 @@ namespace ProjectTracker.Api.Models
         {
             var context = default(Context);
             context = context ?? request.GetContext();
+
             var username = "Billy";
+            //var username = request.GetUserName();
 
             var result = await context.Tasks.InsertAsync(task.Name, task.Description, task.IsComplete, username,
-                (id) =>
+                id =>
                 {
                     task.Id = id;
                     return request.CreateResponse(HttpStatusCode.Created, task);
                 },
-                (failed) => request.CreateResponse(HttpStatusCode.BadRequest, "This Failed"),
+                failed => request.CreateResponse(HttpStatusCode.BadRequest, "This Failed"),
                 () => request.CreateResponse(HttpStatusCode.Unauthorized));
 
             return result;
+        }
+
+        public static async Task<HttpResponseMessage> PutAsync(this TaskResource task, HttpRequestMessage request, UrlHelper url)
+        {
+            var context = default(Context);
+            context = context ?? request.GetContext();
+
+            var username = "Billy";
+            //var username = request.GetUserName();
+
+            var result = await context.Tasks.UpdateAsync(task.Id, task.Name, task.Description, task.IsComplete, username,
+                () => { return request.CreateResponse(HttpStatusCode.Created, task); },
+                failed => request.CreateResponse(HttpStatusCode.BadRequest, "This failed"),
+                () => request.CreateResponse(HttpStatusCode.Unauthorized));
+
+            return result;
+
+        }
+
+        public static async Task<HttpResponseMessage> DeleteAsync(this TaskResource task, HttpRequestMessage request)
+        {
+            var context = default(Context);
+            context = context ?? request.GetContext();
+
+            var username = "Billy";
+            //var username = request.GetUserName();
+
+            if (task.Id == default(long))
+                return request.CreateResponse(HttpStatusCode.BadRequest, "Id is required");
+
+            return await context.Tasks.DeleteAsync(task.Id, username,
+                () => request.CreateResponse(HttpStatusCode.OK),
+                failed => request.CreateResponse(HttpStatusCode.Conflict, failed));
         }
     }
 }

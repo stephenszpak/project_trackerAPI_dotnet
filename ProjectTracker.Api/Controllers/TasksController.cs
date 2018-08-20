@@ -31,17 +31,17 @@ namespace ProjectTracker.Api.Controllers
         }
 
         //[AuthorizeRoles(CustomUserRoles.Admin)]
-        //public async Task<IHttpActionResult> PutAsync([FromBody]TaskResource task)
-        //{
-        //    var response = await task.PutAsync(this.Request, this.Url);
-        //    return response.ToActionResult();
-        //}
+        public async Task<IHttpActionResult> PutAsync([FromBody]TaskResource task)
+        {
+            var response = await task.PutAsync(this.Request, this.Url);
+            return response.ToActionResult();
+        }
 
         //[AuthorizeRoles(CustomUserRoles.Admin)]
-        //public async Task<IHttpActionResult> DeleteAsync([FromUri]TaskResource task)
-        //{
-        //    var response = await task.DeleteAsync(this.Request);
-        //    return response.ToActionResult();
-        //}
+        public async Task<IHttpActionResult> DeleteAsync([FromUri]TaskResource task)
+        {
+            var response = await task.DeleteAsync(this.Request);
+            return response.ToActionResult();
+        }
     }
 }
