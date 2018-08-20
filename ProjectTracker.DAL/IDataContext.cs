@@ -9,5 +9,6 @@ namespace ProjectTracker.DAL
     public interface IDataContext
     {
         ITasks Tasks { get; }
+        IProjects Projects { get; }
     }
 }

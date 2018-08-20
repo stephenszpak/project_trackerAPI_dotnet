@@ -16,14 +16,9 @@ namespace ProjectTracker.DAL.Sql
         }
 
         private Tasks tasks = default(Tasks);
-        public ITasks Tasks
-        {
-            get
-            {
-                if (default(Tasks) == tasks)
-                    tasks = new Tasks(connectionString);
-                return tasks;
-            }
-        }
+        public ITasks Tasks => tasks ?? (tasks = new Tasks(connectionString));
+
+        private Projects projects = default(Projects);
+        public IProjects Projects => projects ?? (projects = new Projects(connectionString));
     }
 }

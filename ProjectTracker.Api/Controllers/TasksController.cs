@@ -1,11 +1,6 @@
-﻿using ProjectTracker.Api.Auth;
-using ProjectTracker.Api.Models;
+﻿using ProjectTracker.Api.Models;
 using ProjectTracker.Api.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace ProjectTracker.Api.Controllers

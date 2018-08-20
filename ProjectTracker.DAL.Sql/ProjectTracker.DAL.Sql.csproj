@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="DataContext.cs" />
     <Compile Include="Extensions.Audits.cs" />
+    <Compile Include="Projects.cs" />
     <Compile Include="Tasks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -46,10 +46,10 @@ namespace ProjectTracker.Api
             //    config.EnableCors(corsPolicy);
             //}
 
+            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+
             //ConfigureAuth(app);
             //ConfigureOAuth(app);
-
-            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
             app.UseWebApi(config);
         }

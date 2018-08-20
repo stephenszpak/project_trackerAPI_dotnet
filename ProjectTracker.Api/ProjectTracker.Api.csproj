@@ -258,6 +258,7 @@
     <Compile Include="Controllers\AuthorizeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Extensions.cs" />
@@ -268,12 +269,14 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AuthorizeModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ProjectsModel.cs" />
     <Compile Include="Models\TasksModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Resources\Authorization\Authorize.cs" />
     <Compile Include="Resources\Authorization\Jwt.cs" />
     <Compile Include="Resources\Operations\Resource.cs" />
+    <Compile Include="Resources\ProjectResource.cs" />
     <Compile Include="Resources\TaskResource.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />

@@ -24,27 +24,14 @@ namespace ProjectTracker
 
         public IDataContext DataContext => dataContext ?? (dataContext = dataContextCreateFunc.Invoke());
 
-        private Tasks tasks = default(Tasks);
-        public Tasks Tasks
-        {
-            get
-            {
-                if (default(Tasks) == tasks)
-                    tasks = new Tasks(this, DataContext);
-                return tasks;
-            }
-        }
-
         private Authorizations authorizations = default(Authorizations);
-        public Authorizations Authorizations
-        {
-            get
-            {
-                if (default(Authorizations) == authorizations)
-                    authorizations = new Authorizations(this, DataContext);
-                return authorizations;
-            }
+        public Authorizations Authorizations => authorizations ?? (authorizations = new Authorizations(this, DataContext));
 
-        }
+        private Projects projects = default(Projects);
+        public Projects Projects => projects ?? (projects = new Projects(this, DataContext));
+
+        private Tasks tasks = default(Tasks);
+        public Tasks Tasks => tasks ?? (tasks = new Tasks(this, DataContext));
+
     }
 }

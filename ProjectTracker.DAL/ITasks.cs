@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ProjectTracker.DAL
 {
     public delegate T TasksInfoDelegateAsync<T>(long id, string name, string description, bool isComplete);
+
     public delegate T TaskInfoDelegateAsync<T>(string name, string description, bool isComplete);
 
     public interface ITasks
@@ -27,7 +28,7 @@ namespace ProjectTracker.DAL
 
         Task<TResult> GetAllTasksAsync<TResult>(
             TasksInfoDelegateAsync<TResult> callback,
-            Func<TResult> success,
+            Func<TResult> done,
             Func<TResult> notFound);
 
         Task<TResult> FindTaskByIdAsync<TResult>(long id,

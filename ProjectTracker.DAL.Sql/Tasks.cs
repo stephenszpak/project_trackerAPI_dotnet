@@ -95,7 +95,7 @@ namespace ProjectTracker.DAL.Sql
                     await internalConnection.OpenAsync();
                     transaction = internalConnection.BeginTransaction();
 
-                    var query = "UPDATE [dbo].[Tasks] SET" +
+                    var query = "UPDATE Tasks SET" +
                                 "[Name] = @Name," +
                                 "[Description] = @Description," +
                                 "[IsComplete] = @IsComplete WHERE Id = @Id";
