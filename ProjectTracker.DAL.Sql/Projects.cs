@@ -105,9 +105,83 @@ namespace ProjectTracker.DAL.Sql
             }
         }
 
-        public async Task<TResult> UpdateAsync<TResult>(long id, string name, string description, string projectSponsor, string executiveSponsor, string productSponsor, long projectTypeId, bool newPricingRules, long volume, decimal revenueAtList, bool dealFormEligible, string newTitles, string newAccounts, string projectDetails, string businessCase, string comments, DateTime createdDate, string username, Func<TResult> success, Func<string, TResult> failed, Func<TResult> unAuthorized)
+        public async Task<TResult> UpdateAsync<TResult>(long id, string name, string description, string projectSponsor,
+            string executiveSponsor, string productSponsor, long projectTypeId, bool newPricingRules, long volume,
+            decimal revenueAtList, bool dealFormEligible, string newTitles, string newAccounts, string projectDetails,
+            string businessCase, string comments, DateTime updatedDate, string username, 
+            Func<TResult> success,
+            Func<string, TResult> failed,
+            Func<TResult> unAuthorized)
         {
-            throw new NotImplementedException();
+            using (var internalConnection = new SqlConnection(connectionString))
+            {
+                SqlTransaction transaction = null;
+
+                try
+                {
+                    await internalConnection.OpenAsync();
+                    transaction = internalConnection.BeginTransaction();
+
+                    var query = "UPDATE Projects SET " +
+                        "[Name] = @Name, " +
+                        "[Description] = @Description, " +
+                        "[ProjectSponsor] = @ProjectSponsor, " +
+                        "[ExecutiveSponsor] = @ExecutiveSponsor, " +
+                        "[ProductSponsor] = @ProductSponsor, " +
+                        "[ProjectTypeId] = @ProjectTypeId, " +
+                        "[NewPricingRules] = @NewPricingRules, " +
+                        "[Volume] = @Volume, " +
+                        "[RevenueAtList] = @RevenueAtLIst, " +
+                        "[DealFormEligible] = @DealFormEligible, " +
+                        "[NewTitles] = @NewTitles, " +
+                        "[NewAccounts] = @NewAccounts, " +
+                        "[ProjectDetails] = @ProjectDetails, " +
+                        "[BusinessCase] = @BusinessCase, " +
+                        "[Name] = @Name, " +
+                        "[Comments] = @Comments, " +
+                        "[UpdatedDate] = @UpdatedDate WHERE Id = @Id ";
+
+                    var cmd = new SqlCommand(string.Empty, internalConnection) { CommandText = query };
+                    cmd.Parameters.Clear();
+                    cmd.Transaction = transaction;
+
+                    cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+                    cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.VarChar) { Value = name });
+                    cmd.Parameters.Add(new SqlParameter("@Description", SqlDbType.VarChar) { Value = description });
+                    cmd.Parameters.Add(new SqlParameter("@ProjectSponsor", SqlDbType.VarChar) { Value = projectSponsor });
+                    cmd.Parameters.Add(new SqlParameter("@ExecutiveSponsor", SqlDbType.VarChar) { Value = executiveSponsor });
+                    cmd.Parameters.Add(new SqlParameter("@ProductSponsor", SqlDbType.VarChar) { Value = productSponsor });
+                    cmd.Parameters.Add(new SqlParameter("@ProjectTypeId", SqlDbType.Int) { Value = projectTypeId });
+                    cmd.Parameters.Add(new SqlParameter("@NewPricingRules", SqlDbType.Bit) { Value = newPricingRules });
+                    cmd.Parameters.Add(new SqlParameter("@Volume", SqlDbType.Int) { Value = volume });
+                    cmd.Parameters.Add(new SqlParameter("@RevenueAtList", SqlDbType.Decimal) { Value = revenueAtList });
+                    cmd.Parameters.Add(new SqlParameter("@DealFormEligible", SqlDbType.Bit) { Value = dealFormEligible });
+                    cmd.Parameters.Add(new SqlParameter("@NewTitles", SqlDbType.VarChar) { Value = newTitles });
+                    cmd.Parameters.Add(new SqlParameter("@NewAccounts", SqlDbType.VarChar) { Value = newAccounts });
+                    cmd.Parameters.Add(new SqlParameter("@ProjectDetails", SqlDbType.VarChar) { Value = projectDetails });
+                    cmd.Parameters.Add(new SqlParameter("@BusinessCase", SqlDbType.VarChar) { Value = businessCase });
+                    cmd.Parameters.Add(new SqlParameter("@UpdatedDate", SqlDbType.VarChar) { Value = updatedDate });
+                    cmd.Parameters.Add(new SqlParameter("@Comments", SqlDbType.VarChar) { Value = comments });
+
+                    var rowsItems = await cmd.ExecuteNonQueryAsync(); var rows = Convert.ToInt64(rowsItems);
+
+                   // TODO: ADD AUDITLOGS
+
+                    transaction.Commit();
+                    return rows > 0 ? success() : failed("No rows saved.  Error Occured");
+                }
+                catch (SqlException sqlEx)
+                {
+                    transaction?.Rollback();
+                    _log.Error(sqlEx, sqlEx.Message, sqlEx.StackTrace);
+                }
+                catch (Exception ex)
+                {
+                    transaction?.Rollback();
+                    _log.Error(ex, ex.Message, ex.StackTrace);
+                }
+                return unAuthorized();
+            }
         }
 
         public async Task<TResult> DeleteAsync<TResult>(long id, string username, Func<TResult> success, Func<string, TResult> failed)
@@ -210,7 +284,56 @@ namespace ProjectTracker.DAL.Sql
 
         public async Task<TResult> FindProjectByIdAsync<TResult>(long id, ProjectInfoDelegateAsync<TResult> callback, Func<TResult> done, Func<TResult> notFound)
         {
-            throw new NotImplementedException();
+            using (var internalConnection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    await internalConnection.OpenAsync();
+
+                    var query = "SELECT Name, Description, ProjectSponsor, ExecutiveSponsor, ProductSponsor, ProjectTypeId, NewPricingRules, " +
+                        "Volume, RevenueAtList, DealFormEligible, NewTitles, NewAccounts, ProjectDetails, BusinessCase, Comments, CreatedDate " +
+                        "FROM Projects WHERE Id = @Id";
+
+                    var cmd = new SqlCommand(string.Empty, internalConnection) { CommandText = query };
+                    cmd.Parameters.Clear();
+
+                    cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.BigInt) { Value = id });
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (!reader.HasRows) return notFound();
+                        while (reader.Read())
+                        {
+                            callback(reader["Name"].ToString(),
+                                reader["Description"].ToString(),
+                                reader["ProjectSponsor"].ToString(),
+                                reader["ExecutiveSponsor"].ToString(),
+                                reader["ProductSponsor"].ToString(),
+                                reader["ProjectTypeId"].ToLong(),
+                                reader["NewPricingRules"].ToBool(),
+                                reader["Volume"].ToLong(),
+                                reader["RevenueAtList"].ToDecimal(),
+                                reader["DealFormEligible"].ToBool(),
+                                reader["NewTitles"].ToString(),
+                                reader["NewAccounts"].ToString(),
+                                reader["ProjectDetails"].ToString(),
+                                reader["BusinessCase"].ToString(),
+                                reader["Comments"].ToString(),
+                                reader["CreatedDate"].ToDateTime());
+                        }
+                    }
+                    return done();
+                }
+                catch (SqlException sqlEx)
+                {
+                    _log.Error(sqlEx, sqlEx.Message, sqlEx.StackTrace);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message, ex.StackTrace);
+                }
+                return notFound();
+            }
         }
     }
 }

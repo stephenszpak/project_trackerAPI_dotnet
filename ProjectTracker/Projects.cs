@@ -43,5 +43,14 @@ namespace ProjectTracker
                 () => { return unAuthorized(); }
             );
         }
+
+        public async Task<TResult> DeleteAsync<TResult>(long id, string username,
+            Func<TResult> success,
+            Func<string, TResult> failed)
+        {
+            return await _dataContext.Projects.DeleteAsync(id, username,
+                () => { return success(); },
+                s => { return failed(s); });
+        }
     }
 }

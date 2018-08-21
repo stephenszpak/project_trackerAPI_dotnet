@@ -30,7 +30,7 @@ namespace ProjectTracker.DAL
         Task<TResult> UpdateAsync<TResult>(long id, string name, string description, string projectSponsor, string executiveSponsor,
             string productSponsor, long projectTypeId, bool newPricingRules, long volume, decimal revenueAtList,
             bool dealFormEligible, string newTitles, string newAccounts, string projectDetails, string businessCase,
-            string comments, DateTime createdDate, string username,
+            string comments, DateTime updatedDate, string username,
             Func<TResult> success,
             Func<string, TResult> failed,
             Func<TResult> unAuthorized);
