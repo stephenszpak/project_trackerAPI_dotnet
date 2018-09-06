@@ -48,8 +48,8 @@ namespace ProjectTracker.Api
 
             //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
-            //ConfigureAuth(app);
-            //ConfigureOAuth(app);
+            ConfigureAuth(app);
+            ConfigureOAuth(app);
 
             app.UseWebApi(config);
         }
